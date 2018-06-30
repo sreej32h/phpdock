@@ -43,6 +43,11 @@ if [ $# -gt 0 ]; then
         docker-compose run --rm \
             node \
             ./node_modules/.bin/gulp "$@"
+    elif [ "$1" == "ngreload" ]; then
+        shift 1
+        docker-compose exec \
+            app \
+            sh -c "cp /var/www/conf/nginx-app.conf /etc/nginx/sites-available/default && nginx -s reload"
     else
         docker-compose "$@"
     fi
